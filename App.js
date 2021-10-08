@@ -46,11 +46,29 @@ const App = () => {
     </View>
   }
 
+  const Settings = () => {
+    const [logo, setLogo] = useState(false)
+
+    const handleOnPress = () => {
+      setLogo(!logo)
+    }
+
+    return <View style={styles.container}>
+      <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={require('./assets/mersu_porvoossa.jpg')}></Image>
+      <TouchableOpacity onPress={handleOnPress}>
+        <Text style={{ color: '#000', fontSize: 100, textAlign: 'center' }}>:P</Text>
+      </TouchableOpacity>
+      {logo === true && <Text style={{ color: 'blue', fontSize: 100, textAlign: 'center' }}>{t('appName')}</Text>}
+      <StatusBar style="auto" />
+    </View>
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Second" component={Second} />
+        <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>
   );

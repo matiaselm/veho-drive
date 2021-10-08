@@ -11,7 +11,11 @@ i18n
         resources: {
             fi: {
                 translation: {
-                    appName: 'Veho Drive :D'
+                    appName: 'Veho Drive :D',
+                    searchTabTitle: 'Haku',
+                    carTabTitle: 'Auto',
+                    userTabTitle: 'Profiili',
+                    settingsTabTitle: 'Asetukset'
                 }
             }
         }

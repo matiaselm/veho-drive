@@ -19,22 +19,22 @@ const Main = () => {
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, color, size }) => {
                     let name;
-                    if (route.name === "Search") {
+                    if (route.name === 'SearchStack') {
                         name = focused ? 'search' : 'search-outline'
-                    } else if (route.name === 'Subscription') {
+                    } else if (route.name === 'OrderStack') {
                         name = focused ? 'car' : 'car-outline';
-                    } else if (route.name === 'Profile') {
+                    } else if (route.name === 'ProfileStack') {
                         name = focused ? 'person' : 'person-outline';
-                    } else if (route.name === 'Settings') {
+                    } else if (route.name === 'SettingsStack') {
                         name = focused ? 'cog' : 'cog-outline';
                     }
                     return <Icon name={name} size={size} color={color} />;
                 }})
             }>
-            <Tabs.Screen name={'Search'} component={SearchStack} options={{ name: 'searchStack' }} />
-            <Tabs.Screen name={'Subscription'}  component={CarStack} options={{ name: 'carStack' }} />
-            <Tabs.Screen name={'Profile'}  component={UserStack} options={{ name: 'userStack'}} />
-            <Tabs.Screen name={'Settings'}  component={SettingsStack} options={{ name: 'settingsStack' }} />
+            <Tabs.Screen name={'SearchStack'} component={SearchStack} options={{ name: 'searchStack' }} />
+            <Tabs.Screen name={'CarStack'}  component={CarStack} options={{ name: 'carStack' }} />
+            <Tabs.Screen name={'UserStack'}  component={UserStack} options={{ name: 'userStack'}} />
+            <Tabs.Screen name={'SettingsStack'}  component={SettingsStack} options={{ name: 'settingsStack' }} />
         </Tabs.Navigator>
     );
 };

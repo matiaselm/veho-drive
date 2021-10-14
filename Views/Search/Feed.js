@@ -3,11 +3,10 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import { useTranslation } from 'react-i18next';
 
 const Feed = ({ title, navigation, route }) => {
-    const [logo, setLogo] = useState(false)
     const { t } = useTranslation();
 
     const handleOnPress = () => {
-      navigation.navigate('FilterSearch')
+      navigation.navigate('Filtterit')
     }
 
     return <ScrollView style={styles.container}>
@@ -20,9 +19,9 @@ const Feed = ({ title, navigation, route }) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
+        flex: 1,
+        backgroundColor: '#fff',
     },
-  });
+});
 
 export default Feed

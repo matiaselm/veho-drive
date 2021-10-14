@@ -21,9 +21,9 @@ const Main = () => {
                     let name;
                     if (route.name === 'SearchStack') {
                         name = focused ? 'search' : 'search-outline'
-                    } else if (route.name === 'OrderStack') {
+                    } else if (route.name === 'CarStack') {
                         name = focused ? 'car' : 'car-outline';
-                    } else if (route.name === 'ProfileStack') {
+                    } else if (route.name === 'UserStack') {
                         name = focused ? 'person' : 'person-outline';
                     } else if (route.name === 'SettingsStack') {
                         name = focused ? 'cog' : 'cog-outline';

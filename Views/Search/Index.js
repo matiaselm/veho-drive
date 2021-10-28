@@ -13,8 +13,8 @@ const options = {
 export default () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Syöte" component={Feed} options={{...options, name: 'feed' }} />
-      <Stack.Screen name="Filtterit" component={FilterSearch} options={{...options, name: 'filterSearch' }} />
+      <Stack.Screen name="Feed" component={Feed} options={{...options, name: 'feed' }} />
+      <Stack.Screen name="FilterSearch" component={FilterSearch} options={{...options, name: 'filterSearch' }} />
     </Stack.Navigator>
   );
 };

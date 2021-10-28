@@ -1,8 +1,12 @@
+import React from 'react';
+import { LogBox } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import './Services/i18n';
-import Main from './Views/Main';
+import Main from './views/Main';
+
+// kutsutaan vain jotta saadaan firebase sekä i18n alustettua
+import './services/i18n';
+import './services/firebase';
 
 const App = () => {
   return (<>

@@ -8,6 +8,8 @@ import Main from './views/Main';
 import './services/i18n';
 import './services/firebase';
 
+LogBox.ignoreLogs(['Setting a timer']);
+
 const App = () => {
   return (<>
     <NavigationContainer>

@@ -18,7 +18,12 @@ i18n
                     settingsTabTitle: 'Asetukset',
                     filterSearchKm: 'Mittarilukema',
                     filterSearchYear: 'Valmistusvuosi',
-                    filterSearchFuel: 'Polttoaine'
+                    filterSearchFuel: 'Polttoaine',
+                    order: 'Tilaa',
+                    washService: 'Pesupalvelu',
+                    refuelService: 'Tankkauspalvelut',
+                    roofrackService: 'Kattoteline',
+                    trackdayService: 'Ratapäivä',
                 }
             }
         }

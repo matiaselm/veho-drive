@@ -11,8 +11,6 @@ import {
     FB_MEASUREMENTID,
 } from "@env";
 
-console.log('apikey asd:',FB_APIKEY);
-
 const config = {
     apiKey: FB_APIKEY,
     authDomain: FB_AUTHDOMAIN,

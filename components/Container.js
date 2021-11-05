@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10
+        height: Dimensions.get('window').height
     }
 })
 

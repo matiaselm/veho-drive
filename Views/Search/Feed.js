@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, FlatList, View } from 'react-native';
+import { StyleSheet, Dimensions, FlatList, View, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Box from '@/components/Box';
 import Container from '@/components/Container';
@@ -8,6 +8,7 @@ import database from '@/services/database';
 const Feed = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [cars, setCars] = useState(null);
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
     getCars()
@@ -26,18 +27,31 @@ const Feed = ({ navigation, route }) => {
     }
   }
 
+  const onRefresh = async () => {
+    setRefreshing(true)
+    try {
+      getCars()
+    } catch(e) {
+      console.error(e)
+    }
+    setRefreshing(false)
+  }
+
   return <Container>
     <FlatList
+      refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}
       style={styles.container}
       numColumns={3}
       data={cars}
-      keyExtractor={item => item.id}
-      renderItem={({ item, index }) =>
-        <Box
+      keyExtractor={(_, index) => index}
+      renderItem={({ item, index }) =>{
+        return <Box
           imageUrl={item.image}
           title={`${item.manufacturer} ${item.model}`}
+          subtitle={`${item.year}`}
+          additional={`${item.fuel}`}
           onPress={() => handleOnPress(item)}
-          style={styles.box} />
+        />}
       }>
     </FlatList>
   </Container>
@@ -46,15 +60,8 @@ const Feed = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: Dimensions.get('window').height
   },
-  box: {
-    width: (Dimensions.get('window').width) / 3,
-    aspectRatio: 1,
-    minHeight: 200,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#fff'
-  }
 });
 
 export default Feed

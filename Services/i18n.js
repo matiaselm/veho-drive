@@ -15,7 +15,10 @@ i18n
                     searchTabTitle: 'Haku',
                     carTabTitle: 'Auto',
                     userTabTitle: 'Profiili',
-                    settingsTabTitle: 'Asetukset'
+                    settingsTabTitle: 'Asetukset',
+                    filterSearchKm: 'Mittarilukema',
+                    filterSearchYear: 'Valmistusvuosi',
+                    filterSearchFuel: 'Polttoaine'
                 }
             }
         }

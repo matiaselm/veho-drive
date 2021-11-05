@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useTranslation } from 'react-i18next';
 import { Ionicons as Icon } from '@expo/vector-icons';
 
 import CarStack from './Car/Index';

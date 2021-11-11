@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Pressable, ScrollView, Dimensions, Switch } from 'react-native';
+import { View, Image, StyleSheet, Pressable, ScrollView, Dimensions, Switch } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import Container from '@/components/Container';
@@ -10,7 +10,8 @@ import { COLORS } from '@/styles/constants';
 import Divider from '@/components/Divider';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { formatDistance, format } from 'date-fns';
-import { fi } from 'date-fns/locale'
+import { fi } from 'date-fns/locale';
+import Text from '@/components/Text';
 
 const FilterSearch = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -30,7 +31,6 @@ const FilterSearch = ({ navigation, route }) => {
     wash: false,
     refuel: false,
     roofrack: false,
-    trackday: false
   })
   const [dates, setDates] = useState({
     starts_at: new Date(),
@@ -82,16 +82,16 @@ const FilterSearch = ({ navigation, route }) => {
 
   const CarType = ({ fuel }) => {
     if (fuel.includes('e95') && !fuel.includes('hybrid')) {
-      return <Text style={{ fontSize: 50, color: '#000' }}>E95</Text>
+      return <Text fontSize={50}>E95</Text>
     }
     if (fuel.includes('diesel')) {
-      return <Text style={{ fontSize: 50, color: '#000' }}>Diesel</Text>
+      return <Text fontSize={50}>Diesel</Text>
     }
     if (fuel.includes('electric')) {
-      return <Icon name='lightning-bolt' size={50} color='#000' />
+      return <Icon fontSize={50} name='lightning-bolt' size={50} color='#000' />
     }
     if (fuel.includes('hybrid')) {
-      return <Text style={{ fontSize: 50, color: '#000' }}>Hybrid</Text>
+      return <Text fontSize={50}>Hybrid</Text>
     } else {
       return <></>
     }
@@ -127,13 +127,13 @@ const FilterSearch = ({ navigation, route }) => {
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
       <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <View style={styles.infoBody}>
-          <Text style={{ color: '#000', fontSize: 16 }}>{t('filterSearchKm')}</Text><Text style={styles.info}>{km} km</Text>
+          <Text>{t('filterSearchKm')}</Text><Text style={styles.info}>{km} km</Text>
         </View>
         <View style={styles.infoBody}>
-          <Text style={{ color: '#000', fontSize: 16 }}>{t('filterSearchYear')}</Text><Text style={styles.info}>{year}</Text>
+          <Text>{t('filterSearchYear')}</Text><Text style={styles.info}>{year}</Text>
         </View>
         <View style={styles.infoBody}>
-          <Text style={{ color: '#000', fontSize: 16 }}>{t('filterSearchFuel')}</Text><Text style={styles.info}>{fuel}</Text>
+          <Text>{t('filterSearchFuel')}</Text><Text style={styles.info}>{fuel}</Text>
         </View>
       </View>
 
@@ -143,20 +143,25 @@ const FilterSearch = ({ navigation, route }) => {
     <Divider />
     {length != null && <Text style={{ marginHorizontal: 10, fontSize: 20 }}>Sopimuksen kesto: {length}</Text>}
     <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
+      <View style={{ flex: 1, marginRight: 5, flexDirection: 'column' }}>
+        <Text subtitle style={{ alignSelf: 'center' }}>Laina alkaa</Text>
+        <Button
+          style={{ width: '100%' }} 
+          icon='calendar'
+          text={format(dates.starts_at, 'dd.MM.yyyy')}
+          onPress={() => setDatePickerVisible(prev => ({ ...prev, starts_at: true }))}
+        />
+      </View>
 
-      <Button
-        style={{ flex: 1, marginRight: 5 }}
-        icon='calendar'
-        text={format(dates.starts_at, 'dd.MM.yyyy')}
-        onPress={() => setDatePickerVisible(prev => ({ ...prev, starts_at: true }))}
-      />
-
-      <Button
-        style={{ flex: 1, marginLeft: 5 }}
-        text={format(dates.ends_at, 'dd.MM.yyyy')}
-        icon='calendar'
-        onPress={() => setDatePickerVisible(prev => ({ ...prev, ends_at: true }))}
-      />
+      <View style={{ flex: 1, marginLeft: 5, flexDirection: 'column' }}>
+        <Text subtitle style={{ alignSelf: 'center' }}>Laina päättyy</Text>
+        <Button
+          style={{ width: '100%' }}
+          text={format(dates.ends_at, 'dd.MM.yyyy')}
+          icon='calendar'
+          onPress={() => setDatePickerVisible(prev => ({ ...prev, ends_at: true }))}
+        />
+      </View>
 
     </View>
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Pressable, Text, View, StyleSheet } from 'react-native';
+import { Pressable, View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { COLORS } from '@/styles/constants';
+import Text from './Text.js';
 
 const Button = ({ onPress, text, textColor, icon, iconColor, iconSize, color, style }) => {
     const darken = (color, percent = -60) => {
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
       },
       buttonText: {
-        fontSize: 16,
         textAlign: 'center'
       }
 })

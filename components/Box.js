@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, Pressable, View, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, Pressable, View, ImageBackground, Dimensions } from 'react-native';
+import Text from './Text.js';
 
 const styles = StyleSheet.create({
     card: {

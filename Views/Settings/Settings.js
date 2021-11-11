@@ -10,7 +10,7 @@ const Settings = ({ route, navigation }) => {
         <Container padding>
             <View style={{ flexDirection: 'row' }}>
                 <ProfileImage />
-                <Text title style={{ marginLeft: 20 }}>Matti Koskinen</Text>
+                <Text title style={{ marginLeft: 20 }}>Jarmo</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('CarStack',{ screen: 'Order' })}><Text title style={{ marginTop: 10 }}>Hallitse tilausta</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => console.log('Vaihda kieli')}><Text title style={{ marginTop: 10 }}>Vaihda kieli</Text></TouchableOpacity>

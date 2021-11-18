@@ -1,84 +1,39 @@
+import React from 'react';
+import { LogBox, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import './i18n';
-import { useTranslation } from 'react-i18next';
+import Main from './views/Main';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import {
+  useFonts,
+  OpenSans_300Light,
+  OpenSans_700Bold,
+} from '@expo-google-fonts/open-sans';
 
-const App = () => {  
-  const { t } = useTranslation();
-  const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
+// kutsutaan vain jotta saadaan firebase sekä i18n alustettua
+import './services/i18n';
+import './services/firebase';
 
-  const Home = (props) => {
-    const [logo, setLogo] = useState(false)
+LogBox.ignoreLogs(['Setting a timer']);
 
-    const handleOnPress = () => {
-      setLogo(!logo)
-    }
+const App = () => {
 
-    return <View style={styles.container}>
-      <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={require('./assets/mersu_porvoossa.jpg')}></Image>
-      <TouchableOpacity onPress={handleOnPress}>
-        <Text style={{ color: '#000', fontSize: 100, textAlign: 'center' }}>:D</Text>
-      </TouchableOpacity>
-      {logo === true && <Text style={{ color: 'blue', fontSize: 100, textAlign: 'center' }}>{t('appName')}</Text>}
+  let [fontsLoaded] = useFonts({
+    'OpenSans_light': OpenSans_300Light,
+    'OpenSans_bold': OpenSans_700Bold
+  });
+
+  if (!fontsLoaded) {
+    return <View />;
+  } else {
+    return (<RootSiblingParent>
+      <NavigationContainer>
+        <Main />
+      </NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+    </RootSiblingParent>
+    );
   }
-
-  const Second = () => {
-    const [logo, setLogo] = useState(false)
-
-    const handleOnPress = () => {
-      setLogo(!logo)
-    }
-
-    return <View style={styles.container}>
-      <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={require('./assets/mersu_porvoossa.jpg')}></Image>
-      <TouchableOpacity onPress={handleOnPress}>
-        <Text style={{ color: '#000', fontSize: 100, textAlign: 'center' }}>:(</Text>
-      </TouchableOpacity>
-      {logo === true && <Text style={{ color: 'blue', fontSize: 100, textAlign: 'center' }}>{t('appName')}</Text>}
-      <StatusBar style="auto" />
-    </View>
-  }
-
-  const Settings = () => {
-    const [logo, setLogo] = useState(false)
-
-    const handleOnPress = () => {
-      setLogo(!logo)
-    }
-
-    return <View style={styles.container}>
-      <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={require('./assets/mersu_porvoossa.jpg')}></Image>
-      <TouchableOpacity onPress={handleOnPress}>
-        <Text style={{ color: '#000', fontSize: 100, textAlign: 'center' }}>:P</Text>
-      </TouchableOpacity>
-      {logo === true && <Text style={{ color: 'blue', fontSize: 100, textAlign: 'center' }}>{t('appName')}</Text>}
-      <StatusBar style="auto" />
-    </View>
-  }
-
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Second" component={Second} />
-        <Tab.Screen name="Settings" component={Settings} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
 
 export default App

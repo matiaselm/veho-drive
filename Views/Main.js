@@ -31,8 +31,8 @@ const Main = () => {
                 }})
             }>
             <Tabs.Screen name={'SearchStack'} component={SearchStack} options={{ name: 'searchStack' }} />
-            <Tabs.Screen name={'CarStack'}  component={CarStack} options={{ name: 'carStack' }} />
             <Tabs.Screen name={'UserStack'}  component={UserStack} options={{ name: 'userStack'}} />
+            <Tabs.Screen name={'CarStack'}  component={CarStack} options={{ name: 'carStack' }} />
             <Tabs.Screen name={'SettingsStack'}  component={SettingsStack} options={{ name: 'settingsStack' }} />
         </Tabs.Navigator>
     );

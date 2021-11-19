@@ -5,7 +5,7 @@ import Button from './Button.js';
 const styles = StyleSheet.create({
     profileImage: {
         aspectRatio: 1,
-        width: 100,
+        width: 130,
         borderRadius: 100,
         backgroundColor: '#aaa',
         justifyContent: 'center',

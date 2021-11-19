@@ -18,11 +18,11 @@ const FilterSearch = ({ navigation, route }) => {
   const [length, setLength] = useState(null)
   const [datePickerVisible, setDatePickerVisible] = useState({ starts_at: false, ends_at: false })
   const [initialDate, setInitialDate] = useState(new Date())
-  const { manufacturer, model, image, km, year, fuel } = route.params;
+  const { manufacturer, model, image_url, km, year, fuel } = route.params;
   const [car, setCar] = useState({
     manufacturer: manufacturer,
     model: model,
-    image: image,
+    image_url: image_url,
     km: km,
     year: year,
     fuel: fuel
@@ -80,17 +80,17 @@ const FilterSearch = ({ navigation, route }) => {
     }
   }
 
-  const CarType = ({ fuel }) => {
-    if (fuel.includes('e95') && !fuel.includes('hybrid')) {
+  const CarType = ({ fueltype }) => {
+    if (fueltype?.includes('e95') && !fueltype?.includes('hybrid')) {
       return <Text fontSize={50}>E95</Text>
     }
-    if (fuel.includes('diesel')) {
+    if (fueltype?.includes('diesel')) {
       return <Text fontSize={50}>Diesel</Text>
     }
-    if (fuel.includes('electric')) {
+    if (fueltype?.includes('electric')) {
       return <Icon fontSize={50} name='lightning-bolt' size={50} color='#000' />
     }
-    if (fuel.includes('hybrid')) {
+    if (fueltype?.includes('hybrid')) {
       return <Text fontSize={50}>Hybrid</Text>
     } else {
       return <></>
@@ -122,7 +122,7 @@ const FilterSearch = ({ navigation, route }) => {
   }
 
   return <Container scroll style={styles.container}>
-    {image != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: image }}></Image>}
+    {image_url != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: image_url }}></Image>}
 
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
       <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between' }}>

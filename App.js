@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import Main from './views/Main';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import './services/axios';
 import {
   useFonts,
   OpenSans_300Light,

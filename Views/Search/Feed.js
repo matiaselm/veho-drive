@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@/components/Box';
 import Container from '@/components/Container';
 import database from '@/services/database';
+import axios from '@/services/axios';
 
 const Feed = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -20,10 +21,10 @@ const Feed = ({ navigation, route }) => {
 
   const getCars = async () => {
     try {
-      const res = await database.get('cars')
+      const res = await axios.get('cars')
       setCars(res.data)
     } catch (e) {
-      console.error(e)
+      console.error('axios', e)
     }
   }
 
@@ -46,10 +47,10 @@ const Feed = ({ navigation, route }) => {
       keyExtractor={(_, index) => index}
       renderItem={({ item, index }) =>{
         return <Box
-          imageUrl={item.image}
+          imageUrl={item.image_url}
           title={`${item.manufacturer} ${item.model}`}
           subtitle={`${item.year}`}
-          additional={`${item.fuel}`}
+          additional={`${item.fueltype}`}
           onPress={() => handleOnPress(item)}
         />}
       }>

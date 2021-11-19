@@ -39,7 +39,7 @@ const Order = ({ navigation, route }) => {
 
     return <Container scroll>
         {car != null ? <View>
-            {car.image != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image }}></Image>}
+            {car.image_url != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexWrap: 'wrap', paddingHorizontal: 10 }}>
                 <Text fontSize={36}>{car.manufacturer} </Text>
                 <Text fontSize={36}>{car.model}</Text>

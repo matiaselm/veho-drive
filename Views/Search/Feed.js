@@ -15,8 +15,10 @@ const Feed = ({ navigation, route }) => {
     getCars()
   },[])
 
-  const handleOnPress = (item) => {
-    navigation.navigate('CarStream', item)
+  const handleOnPress = (car_id) => {
+    const car_ids = cars.map(car => car._id)
+    const currentIndex = car_ids.indexOf(car_id)
+    navigation.navigate('CarStream', { car_ids: car_ids, currentIndex: currentIndex, current_id: car_id })
   }
 
   const getCars = async () => {
@@ -51,7 +53,7 @@ const Feed = ({ navigation, route }) => {
           title={`${item.manufacturer} ${item.model}`}
           subtitle={`${item.monthly_price}€/kk`}
           additional={`${item.fueltype}`}
-          onPress={() => handleOnPress(item)}
+          onPress={() => handleOnPress(item._id, index)}
         />}
       }>
     </FlatList>

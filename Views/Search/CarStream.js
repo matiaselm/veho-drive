@@ -1,50 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, TouchableOpacity, PanResponder } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Text from '@/components/Text';
+import CarInfo from '@/components/CarInfo';
 import Container from '@/components/Container';
 
 const CarStream = ({ route, navigation }) => {
-    const { car_ids } = route.params;
-    const [currentCarId, setCurrentCarId] = useState(null);
-    const panResponderRef = useRef(
-        PanResponder.create({
-            // Ask to be the responder:
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) =>
-                true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onPanResponderGrant: (evt, gestureState) => {
-                // The gesture has started. Show visual feedback so the user knows
-                // what is happening!
-                // gestureState.d{x,y} will be set to zero now
-            },
-            onPanResponderMove: (evt, gestureState) => {
-                // The most recent move distance is gestureState.move{X,Y}
-                // The accumulated gesture distance since becoming responder is
-                // gestureState.d{x,y}
-            },
-            onPanResponderTerminationRequest: (evt, gestureState) =>
-                true,
-            onPanResponderRelease: (evt, gestureState) => {
-                // The user has released all touches while this view is the
-                // responder. This typically means a gesture has succeeded
-            },
-        })
-    ).current;
+    const { car_ids, currentIndex } = route.params;
+    const [currentId, setCurrentId] = useState(route.params.current_id ?? null);
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            if(Array.isArray(car_ids)) {
-                setCurrentCarId(car_ids[0]);
-            }
-        });
+    const handleOnChange = (id) => {
+        console.log('handleOnChange', id);
+        setCurrentId(id);
+    };
 
-        return unsubscribe
-    })
+    // TODO: change to selected car
     return (
-        <Container padding>
-            <View { ...panResponderRef.panHandlers}></View>
-
+        <Container scroll>
+            { (Array.isArray(car_ids) && car_ids.length > 0) && car_ids.map((car_id, index) => {
+                return <CarInfo key={index} car_id={car_id} isCurrent={currentId === car_id} onChange={() => handleOnChange(car_id, index)} />
+            })}
         </Container>
     );
 };

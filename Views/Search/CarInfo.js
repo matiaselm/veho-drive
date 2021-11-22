@@ -13,19 +13,20 @@ import { formatDistance, format } from 'date-fns';
 import { fi } from 'date-fns/locale';
 import Text from '@/components/Text';
 
-const FilterSearch = ({ navigation, route }) => {
+const CarInfo = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [length, setLength] = useState(null)
   const [datePickerVisible, setDatePickerVisible] = useState({ starts_at: false, ends_at: false })
   const [initialDate, setInitialDate] = useState(new Date())
-  const { manufacturer, model, image_url, km, year, fuel } = route.params;
+  const { manufacturer, model, image_url, km, year, fueltype, monthly_price } = route.params;
   const [car, setCar] = useState({
     manufacturer: manufacturer,
     model: model,
     image_url: image_url,
     km: km,
     year: year,
-    fuel: fuel
+    fueltype: fueltype,
+    monthly_price: monthly_price
   })
   const [services, setServices] = useState({
     wash: false,
@@ -125,7 +126,7 @@ const FilterSearch = ({ navigation, route }) => {
     {image_url != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: image_url }}></Image>}
 
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
-      <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', flex: 1 }}>
         <View style={styles.infoBody}>
           <Text>{t('filterSearchKm')}</Text><Text style={styles.info}>{km} km</Text>
         </View>
@@ -133,11 +134,11 @@ const FilterSearch = ({ navigation, route }) => {
           <Text>{t('filterSearchYear')}</Text><Text style={styles.info}>{year}</Text>
         </View>
         <View style={styles.infoBody}>
-          <Text>{t('filterSearchFuel')}</Text><Text style={styles.info}>{fuel}</Text>
+          <Text>{t('filterSearchFuel')}</Text><Text style={styles.info}>{fueltype}</Text>
         </View>
       </View>
 
-      <CarType fuel={fuel} />
+      <Text style={{ flex: 1, textAlign: 'right' }} fontSize={50}>{monthly_price}€/kk</Text>
     </View>
 
     <Divider />
@@ -221,4 +222,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FilterSearch
+export default CarInfo

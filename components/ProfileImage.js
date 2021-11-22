@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import Button from './Button.js';
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
+import { COLORS } from '@/styles/constants';
 
 const styles = StyleSheet.create({
     profileImage: {
         aspectRatio: 1,
-        width: 100,
+        width: 130,
         borderRadius: 100,
         backgroundColor: '#aaa',
         justifyContent: 'center',
@@ -16,11 +18,25 @@ const styles = StyleSheet.create({
         width: 50,
         backgroundColor: '#fff',
         elevation: 10,
+    },
+    icon: {
+        aspectRatio: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        backgroundColor: COLORS.PRIMARY,
+        zIndex: 10,
+        elevation: 20
     }
 })
 
-const ProfileImage = ({ image, size, style, onPress }) => {
-    return <TouchableOpacity disabled={!onPress} onPress={onPress}>
+const ProfileImage = ({ image, size, style, onPress, icon }) => {
+    return <TouchableOpacity disabled={!onPress} onPress={onPress} style={[{ width: 130 }, size && { width: size, borderRadius: size }]}>
+        {icon && <View style={[styles.icon, { borderRadius: size ? size / 2 : 50, width: size ? size / 2 : 50 }]}>
+            <Icon name={icon} color='#fff' size={size ? size / 2 : 30} />
+        </View>}
         <ImageBackground source={{ uri: image }} style={[styles.profileImage, size && { width: size, borderRadius: size }, style]}>
             {!image && <>
                 <View style={[

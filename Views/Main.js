@@ -5,7 +5,6 @@ import { Ionicons as Icon } from '@expo/vector-icons';
 import CarStack from './Car/Index';
 import UserStack from './Profile/Index';
 import SearchStack from './Search/Index';
-import SettingsStack from './Settings/Index';
 
 const Tabs = createBottomTabNavigator();
 
@@ -33,7 +32,6 @@ const Main = () => {
             <Tabs.Screen name={'SearchStack'} component={SearchStack} options={{ name: 'searchStack' }} />
             <Tabs.Screen name={'UserStack'}  component={UserStack} options={{ name: 'userStack'}} />
             <Tabs.Screen name={'CarStack'}  component={CarStack} options={{ name: 'carStack' }} />
-            <Tabs.Screen name={'SettingsStack'}  component={SettingsStack} options={{ name: 'settingsStack' }} />
         </Tabs.Navigator>
     );
 };

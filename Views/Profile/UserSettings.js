@@ -4,16 +4,15 @@ import Text from '@/components/Text';
 import Container from '@/components/Container';
 import ProfileImage from '@/components/ProfileImage';
 
-const Settings = ({ route, navigation }) => {
+const UserSettings = ({ route, navigation }) => {
 
     return (
         <Container padding>
-            <ProfileImage />
-            <TouchableOpacity onPress={() => navigation.navigate('CarStack',{ screen: 'Order' })}><Text title style={{ marginTop: 10 }}>Hallitse tilausta</Text></TouchableOpacity>
+            <ProfileImage onPress={() => console.log('vaihda profiilikuva')} icon='pencil' />
             <TouchableOpacity onPress={() => console.log('Vaihda kieli')}><Text title style={{ marginTop: 10 }}>Vaihda kieli</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => console.log('Ilmoita ongelmasta')}><Text title style={{ marginTop: 10 }}>Ilmoita ongelmasta</Text></TouchableOpacity>
         </Container>
     )
 }
 
-export default Settings
+export default UserSettings

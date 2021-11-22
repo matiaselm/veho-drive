@@ -16,7 +16,7 @@ const Feed = ({ navigation, route }) => {
   },[])
 
   const handleOnPress = (item) => {
-    navigation.navigate('FilterSearch', item)
+    navigation.navigate('CarStream', item)
   }
 
   const getCars = async () => {
@@ -49,7 +49,7 @@ const Feed = ({ navigation, route }) => {
         return <Box
           imageUrl={item.image_url}
           title={`${item.manufacturer} ${item.model}`}
-          subtitle={`${item.year}`}
+          subtitle={`${item.monthly_price}€/kk`}
           additional={`${item.fueltype}`}
           onPress={() => handleOnPress(item)}
         />}

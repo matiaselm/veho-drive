@@ -1,11 +1,14 @@
 import axios from 'axios';
+import { API_URL, API_TOKEN } from '@env';
 
-axios.defaults.baseURL = 'http://192.168.1.6:3000';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+console.log(API_URL, API_TOKEN);
 const instance = axios.create({
-    baseURL: 'http://192.168.1.6:3000',
-    timeout: 1000,
+    baseURL: 'http://192.168.10.60:3000',
+    timeout: 10000,
+    headers: {
+        'Authorization': 'Bearer ' + API_TOKEN,
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
 });
 
 export default instance;

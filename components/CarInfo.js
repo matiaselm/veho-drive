@@ -80,6 +80,7 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
 
     } catch (error) {
       console.error(error)
+      // Virhe toast
     }
   }
 
@@ -123,7 +124,7 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
         </View>
       </View>
 
-      <Text style={{ flex: 1, textAlign: 'right' }} fontSize={50}>{car.monthly_price}€/kk</Text>
+      <Text style={{ flex: 1, textAlign: 'right' }} fontSize={40}>{car.monthly_price}€/kk</Text>
     </View>
 
     <Divider />
@@ -170,11 +171,11 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
         style={{ flex: 1.5 }}
       />
 
-      <Button
+      { false && <Button
         style={{ flex: 1, marginLeft: 10 }}
         onPress={onChange}
         icon='arrow-right'
-        text='Seuraava' />
+        text='Seuraava' /> }
     </View>
 
 

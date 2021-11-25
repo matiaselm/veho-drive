@@ -12,6 +12,7 @@ const Order = ({ navigation, route }) => {
     const [ car, setCar ] = useState(null)
     const [ order, setOrder ] = useState(null)
     const [ services, setServices ] = useState(null)
+    const [ error, setError ] = useState(null)
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -20,26 +21,31 @@ const Order = ({ navigation, route }) => {
         })
         
         return unsubscribe;
-    },[])
+    },[navigation])
 
     const getOrder = async () => {
         try {
-            AsyncStorage.getItem('order').then(res => {
-                res = JSON.parse(res)
-                if(res) {
-                    setOrder(res)
-                    setCar(res.car)
-                    setServices(res.services)
-                }
-            })
+            let res = await AsyncStorage.getItem('order')
+            res = JSON.parse(res)
+            if(res) {
+                setOrder(res)
+                setCar(res.car)
+                setServices(res.services)
+            } else {
+                setError(t('order.noOrder'))
+            }
         } catch(e) {
             console.error(e)
         }
     }
 
+    useEffect(() => {
+        console.log(car)
+    },[car])
+
     return <Container scroll>
-        {car != null ? <View>
-            {car.image_url != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}
+        { car ? <View>
+            {car.image_url && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flexWrap: 'wrap', paddingHorizontal: 10 }}>
                 <Text fontSize={36}>{car.manufacturer} </Text>
                 <Text fontSize={36}>{car.model}</Text>
@@ -61,7 +67,7 @@ const Order = ({ navigation, route }) => {
                     return services[key] == true && <Text fontSize={16} key={key} style={{ marginLeft: 20 }}>{t(`${key}Service`)}</Text>
                 })}
             </View>}
-        </View> : <ActivityIndicator />}
+        </View> : error && <Text bold title style={{ margin: 30, textAlign: 'center' }}>{error}</Text>}
     </Container>
 }
 

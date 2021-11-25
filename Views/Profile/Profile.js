@@ -9,6 +9,8 @@ const Profile = ({ navigation, route }) => {
     const { t } = useTranslation();
     const [car, setCar] = useState(null);
     const [order, setOrder] = useState(null);
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const unsubscibre = navigation.addListener('focus', () => {
@@ -18,13 +20,16 @@ const Profile = ({ navigation, route }) => {
         return unsubscibre;
     }, [])
 
-    const getOrder = () => {
+    const getOrder = async() => {
         try {
-            AsyncStorage.getItem('order').then(res => {
-                const parsed = JSON.parse(res)
-                setOrder(parsed)
-                setCar(parsed.car)
-            })
+            let res = await AsyncStorage.getItem('order')
+            res = JSON.parse(res)
+            if(res) {
+                setOrder(res)
+                setCar(res.car)
+            } else {
+                setError(t('order.noOrder'))
+            }
         } catch(e) {
             console.error(e)
         }
@@ -33,7 +38,7 @@ const Profile = ({ navigation, route }) => {
     return <Container>
         <View style={styles.container3}>
             <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('UserSettings')}>
-                <ProfileImage image='https://img.ilcdn.fi/W3NZqtFn2x5avcK1p5wUuTDMS7M=/full-fit-in/612x0/img-s3.ilcdn.fi/4553c0d5b295cd783ea2f7498ea41dcee06fc3212cff54ab2ac292df2497e2a2.jpg' />
+                <ProfileImage image={ user?.image_url } />
                 <Text style={styles.text1}>Jarmo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('Bonus')}>
@@ -48,7 +53,7 @@ const Profile = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('CarStack', { screen: 'Order'})}>
                 { car && <Image style={styles.image} resizeMode='contain' source={{ uri: car.image_url }}></Image> }
-                <Text style={styles.text1}>Tilaus</Text>
+                <Text style={styles.text1}>{ error ?? 'Tilaus' }</Text>
             </TouchableOpacity>
         </View>
         <View style={styles.container3}>
@@ -71,6 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         borderBottomWidth: 2,
+        flexDirection: 'column',
     },
     container3: {
         flex: 1,

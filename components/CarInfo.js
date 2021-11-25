@@ -12,7 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { formatDistance, format } from 'date-fns';
 import { fi } from 'date-fns/locale';
 import Text from '@/components/Text';
-import axios from 'axios';
+import axios from '@/services/axios';
 
 const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
   const { t } = useTranslation();
@@ -32,7 +32,6 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
 
   useEffect(() => {
     if (isCurrent) {
-      console.log('isCurrent', car_id)
       getCar(car_id)
     }
   }, [isCurrent])
@@ -40,7 +39,6 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
   const getCar = async (car_id) => {
     try {
       const response = await axios.get(`cars/${car_id}`)
-      console.log(response.data)
       setCar(response.data)
     } catch (e) {
       console.error(e)
@@ -166,16 +164,16 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
     <View style={{ flexDirection: 'row', margin: 10 }}>
       <Button
         onPress={() => orderCar(car)}
-        text={t('order')}
+        text={t('order.createOrder')}
         icon='car'
         style={{ flex: 1.5 }}
       />
 
-      { false && <Button
+      <Button
         style={{ flex: 1, marginLeft: 10 }}
         onPress={onChange}
         icon='arrow-right'
-        text='Seuraava' /> }
+        text='Seuraava' />
     </View>
 
 

@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions, FlatList, View, RefreshControl } from 'react-na
 import { useTranslation } from 'react-i18next';
 import Box from '@/components/Box';
 import Container from '@/components/Container';
-import database from '@/services/database';
 import axios from '@/services/axios';
 
 const Feed = ({ navigation, route }) => {

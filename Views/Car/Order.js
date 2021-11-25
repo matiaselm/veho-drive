@@ -39,10 +39,6 @@ const Order = ({ navigation, route }) => {
         }
     }
 
-    useEffect(() => {
-        console.log(car)
-    },[car])
-
     return <Container scroll>
         { car ? <View>
             {car.image_url && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}

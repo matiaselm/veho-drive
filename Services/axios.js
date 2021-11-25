@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { API_URL, API_TOKEN } from '@env';
 
-console.log(API_URL, API_TOKEN);
 const instance = axios.create({
     baseURL: 'http://192.168.10.60:3000',
     timeout: 10000,

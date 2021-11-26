@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     }
 })
 
-const ProfileImage = ({ image, size, style, onPress, icon }) => {
-    return <TouchableOpacity disabled={!onPress} onPress={onPress} style={[{ width: 130 }, size && { width: size, borderRadius: size }]}>
+const ProfileImage = ({ image, size, style, onPress, icon, ...props }) => {
+    return <TouchableOpacity disabled={!onPress} onPress={onPress} style={[{ width: 130 }, size && { width: size, borderRadius: size }]} {...props}>
         {icon && <View style={[styles.icon, { borderRadius: size ? size / 2 : 50, width: size ? size / 2 : 50 }]}>
             <Icon name={icon} color='#fff' size={size ? size / 2 : 30} />
         </View>}

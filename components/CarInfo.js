@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, Pressable, ScrollView, Dimensions, Switch } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, Switch } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
-import Container from '@/components/Container';
 import Button from '@/components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
@@ -14,9 +12,10 @@ import { fi } from 'date-fns/locale';
 import Text from '@/components/Text';
 import axios from '@/services/axios';
 
-const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
+const CarInfo = ({ car_id, isCurrent, onChange }) => {
   const { t } = useTranslation();
   const [length, setLength] = useState(null)
+  const [price, setPrice] = useState(null)
   const [datePickerVisible, setDatePickerVisible] = useState({ starts_at: false, ends_at: false })
   const [initialDate, setInitialDate] = useState(new Date())
   const [car, setCar] = useState(null)
@@ -31,10 +30,16 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
   })
 
   useEffect(() => {
-    if (isCurrent) {
+    if (isCurrent && car_id) {
       getCar(car_id)
     }
-  }, [isCurrent])
+  }, [isCurrent, car_id])
+
+  useEffect(() => {
+    if(dates.starts_at && dates.ends_at) {
+      setLength(formatDistance(dates.starts_at, dates.ends_at, { locale: fi }))
+    }
+  },[dates])
 
   const getCar = async (car_id) => {
     try {
@@ -98,7 +103,6 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
         if (mode === 'starts_at') {
           setDates(prev => ({ ...prev, starts_at: new Date(date) }))
         }
-        setLength(formatDistance(dates.starts_at, dates.ends_at, { locale: fi }))
       }
     } catch (e) {
       console.error(e)
@@ -108,7 +112,7 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
 
   return car && <View style={styles.container}>
     {car.image_url && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}
-
+    <Text title style={{ textAlign: 'center', paddingTop: 5, borderTopWidth: 3, borderColor: COLORS.PRIMARY_DARK }}>{car.manufacturer} {car.model}</Text>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
       <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', flex: 1 }}>
         <View style={styles.infoBody}>
@@ -126,7 +130,7 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
     </View>
 
     <Divider />
-    {length != null && <Text style={{ marginHorizontal: 10, fontSize: 20 }}>Sopimuksen kesto: {length}</Text>}
+    {length && <Text style={{ marginHorizontal: 10, fontSize: 20 }}>Sopimuksen kesto: {length}</Text>}
     <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
       <View style={{ flex: 1, marginRight: 5, flexDirection: 'column' }}>
         <Text subtitle style={{ alignSelf: 'center' }}>Laina alkaa</Text>
@@ -161,6 +165,8 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
       })}
     </View>
 
+    {car.monthly_price && <Text style={{ marginHorizontal: 10, fontSize: 20 }}>Sopimuksen hinta: <Text bold style={{fontSize: 20}}>{car.monthly_price}€</Text></Text>}
+
     <View style={{ flexDirection: 'row', margin: 10 }}>
       <Button
         onPress={() => orderCar(car)}
@@ -169,11 +175,11 @@ const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
         style={{ flex: 1.5 }}
       />
 
-      <Button
+      {false && <Button
         style={{ flex: 1, marginLeft: 10 }}
         onPress={onChange}
         icon='arrow-right'
-        text='Seuraava' />
+        text='Seuraava' />}
     </View>
 
 

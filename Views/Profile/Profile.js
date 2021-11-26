@@ -37,7 +37,7 @@ const Profile = ({ navigation, route }) => {
 
     return <Container>
         <View style={styles.container3}>
-            <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('UserSettings')}>
+            <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('UserSettings')} activeOpacity={0.8}>
                 <ProfileImage image={ user?.image_url } />
                 <Text style={styles.text1}>Jarmo</Text>
             </TouchableOpacity>

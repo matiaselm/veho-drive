@@ -12,21 +12,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { formatDistance, format } from 'date-fns';
 import { fi } from 'date-fns/locale';
 import Text from '@/components/Text';
+import axios from '@/services/axios';
 
-const FilterSearch = ({ navigation, route }) => {
+const CarInfo = ({ car_id, isCurrent, onChange, willLoad }) => {
   const { t } = useTranslation();
   const [length, setLength] = useState(null)
   const [datePickerVisible, setDatePickerVisible] = useState({ starts_at: false, ends_at: false })
   const [initialDate, setInitialDate] = useState(new Date())
-  const { manufacturer, model, image, km, year, fuel } = route.params;
-  const [car, setCar] = useState({
-    manufacturer: manufacturer,
-    model: model,
-    image: image,
-    km: km,
-    year: year,
-    fuel: fuel
-  })
+  const [car, setCar] = useState(null)
   const [services, setServices] = useState({
     wash: false,
     refuel: false,
@@ -36,13 +29,21 @@ const FilterSearch = ({ navigation, route }) => {
     starts_at: new Date(),
     ends_at: new Date()
   })
-  
 
   useEffect(() => {
-    navigation.setOptions({
-      title: `${manufacturer} ${model}`
-    })
-  }, [])
+    if (isCurrent) {
+      getCar(car_id)
+    }
+  }, [isCurrent])
+
+  const getCar = async (car_id) => {
+    try {
+      const response = await axios.get(`cars/${car_id}`)
+      setCar(response.data)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   const orderCar = async (car) => {
     try {
@@ -77,23 +78,7 @@ const FilterSearch = ({ navigation, route }) => {
 
     } catch (error) {
       console.error(error)
-    }
-  }
-
-  const CarType = ({ fuel }) => {
-    if (fuel.includes('e95') && !fuel.includes('hybrid')) {
-      return <Text fontSize={50}>E95</Text>
-    }
-    if (fuel.includes('diesel')) {
-      return <Text fontSize={50}>Diesel</Text>
-    }
-    if (fuel.includes('electric')) {
-      return <Icon fontSize={50} name='lightning-bolt' size={50} color='#000' />
-    }
-    if (fuel.includes('hybrid')) {
-      return <Text fontSize={50}>Hybrid</Text>
-    } else {
-      return <></>
+      // Virhe toast
     }
   }
 
@@ -121,23 +106,23 @@ const FilterSearch = ({ navigation, route }) => {
     }
   }
 
-  return <Container scroll style={styles.container}>
-    {image != null && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: image }}></Image>}
+  return car && <View style={styles.container}>
+    {car.image_url && <Image style={{ height: 300, width: '100%', backgroundColor: '#aaa' }} source={{ uri: car.image_url }}></Image>}
 
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
-      <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'space-between', flex: 1 }}>
         <View style={styles.infoBody}>
-          <Text>{t('filterSearchKm')}</Text><Text style={styles.info}>{km} km</Text>
+          <Text>{t('filterSearchKm')}</Text><Text style={styles.info}>{car.km} km</Text>
         </View>
         <View style={styles.infoBody}>
-          <Text>{t('filterSearchYear')}</Text><Text style={styles.info}>{year}</Text>
+          <Text>{t('filterSearchYear')}</Text><Text style={styles.info}>{car.year}</Text>
         </View>
         <View style={styles.infoBody}>
-          <Text>{t('filterSearchFuel')}</Text><Text style={styles.info}>{fuel}</Text>
+          <Text>{t('filterSearchFuel')}</Text><Text style={styles.info}>{car.fueltype}</Text>
         </View>
       </View>
 
-      <CarType fuel={fuel} />
+      <Text style={{ flex: 1, textAlign: 'right' }} fontSize={40}>{car.monthly_price}€/kk</Text>
     </View>
 
     <Divider />
@@ -146,7 +131,7 @@ const FilterSearch = ({ navigation, route }) => {
       <View style={{ flex: 1, marginRight: 5, flexDirection: 'column' }}>
         <Text subtitle style={{ alignSelf: 'center' }}>Laina alkaa</Text>
         <Button
-          style={{ width: '100%' }} 
+          style={{ width: '100%' }}
           icon='calendar'
           text={format(dates.starts_at, 'dd.MM.yyyy')}
           onPress={() => setDatePickerVisible(prev => ({ ...prev, starts_at: true }))}
@@ -176,12 +161,21 @@ const FilterSearch = ({ navigation, route }) => {
       })}
     </View>
 
-    <Button
-      onPress={() => orderCar(car)}
-      text={t('order')}
-      icon='car'
-      style={{ margin: 10 }}
-    />
+    <View style={{ flexDirection: 'row', margin: 10 }}>
+      <Button
+        onPress={() => orderCar(car)}
+        text={t('order.createOrder')}
+        icon='car'
+        style={{ flex: 1.5 }}
+      />
+
+      <Button
+        style={{ flex: 1, marginLeft: 10 }}
+        onPress={onChange}
+        icon='arrow-right'
+        text='Seuraava' />
+    </View>
+
 
     {datePickerVisible.starts_at == true &&
       <DateTimePicker
@@ -196,8 +190,7 @@ const FilterSearch = ({ navigation, route }) => {
         mode='date'
         onChange={(event, date) => handleDateChange('ends_at', date)}
       />}
-
-  </Container>
+  </View>
 }
 
 const styles = StyleSheet.create({
@@ -221,4 +214,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FilterSearch
+export default CarInfo

@@ -10,6 +10,7 @@ const Profile = ({ navigation, route }) => {
     const [car, setCar] = useState(null);
     const [order, setOrder] = useState(null);
     const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const unsubscibre = navigation.addListener('focus', () => {
@@ -19,13 +20,16 @@ const Profile = ({ navigation, route }) => {
         return unsubscibre;
     }, [])
 
-    const getOrder = () => {
+    const getOrder = async() => {
         try {
-            AsyncStorage.getItem('order').then(res => {
-                const parsed = JSON.parse(res)
-                setOrder(parsed)
-                setCar(parsed.car)
-            })
+            let res = await AsyncStorage.getItem('order')
+            res = JSON.parse(res)
+            if(res) {
+                setOrder(res)
+                setCar(res.car)
+            } else {
+                setError(t('order.noOrder'))
+            }
         } catch(e) {
             console.error(e)
         }
@@ -49,7 +53,7 @@ const Profile = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('CarStack', { screen: 'Order'})}>
                 { car && <Image style={styles.image} resizeMode='contain' source={{ uri: car.image_url }}></Image> }
-                <Text style={styles.text1}>Tilaus</Text>
+                <Text style={styles.text1}>{ error ?? 'Tilaus' }</Text>
             </TouchableOpacity>
         </View>
         <View style={styles.container3}>
@@ -72,6 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         borderBottomWidth: 2,
+        flexDirection: 'column',
     },
     container3: {
         flex: 1,

@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next'
 i18n
     .use(initReactI18next)
     .init({
-        keySeparator: false,
+        keySeparator: '.',
         languages: ['fi', 'en'],
         lng: 'fi',
         compatibilityJSON: 'v3',
@@ -19,7 +19,10 @@ i18n
                     filterSearchKm: 'Mittarilukema',
                     filterSearchYear: 'Valmistusvuosi',
                     filterSearchFuel: 'Polttoaine',
-                    order: 'Tilaa',
+                    order: {
+                        createOrder: 'Tilaa',
+                        noOrder: 'Ei tilauksia',
+                    },
                     washService: 'Pesupalvelu',
                     refuelService: 'Tankkauspalvelut',
                     roofrackService: 'Kattoteline',

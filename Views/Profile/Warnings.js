@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ProfileImage from '@/components/ProfileImage';
 import Container from '@/components/Container';
 
-const Profile = ({ navigation, route }) => {
+const Warnings = ({ navigation, route }) => {
     const { t } = useTranslation();
 
     return <Container>
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Profile
+export default Warnings

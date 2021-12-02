@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, FlatList, View, RefreshControl } from 'react-na
 import { useTranslation } from 'react-i18next';
 import Box from '@/components/Box';
 import Container from '@/components/Container';
-import database from '@/services/database';
+import axios from '@/services/axios';
 
 const Feed = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -14,16 +14,18 @@ const Feed = ({ navigation, route }) => {
     getCars()
   },[])
 
-  const handleOnPress = (item) => {
-    navigation.navigate('FilterSearch', item)
+  const handleOnPress = (car_id) => {
+    const car_ids = cars.map(car => car._id)
+    const currentIndex = car_ids.indexOf(car_id)
+    navigation.navigate('CarStream', { car_ids: car_ids, currentIndex: currentIndex, current_id: car_id })
   }
 
   const getCars = async () => {
     try {
-      const res = await database.get('cars')
+      const res = await axios.get('cars')
       setCars(res.data)
     } catch (e) {
-      console.error(e)
+      console.error('axios', e)
     }
   }
 
@@ -46,11 +48,11 @@ const Feed = ({ navigation, route }) => {
       keyExtractor={(_, index) => index}
       renderItem={({ item, index }) =>{
         return <Box
-          imageUrl={item.image}
+          imageUrl={item.image_url}
           title={`${item.manufacturer} ${item.model}`}
-          subtitle={`${item.year}`}
-          additional={`${item.fuel}`}
-          onPress={() => handleOnPress(item)}
+          subtitle={`${item.monthly_price}€/kk`}
+          additional={`${item.fueltype}`}
+          onPress={() => handleOnPress(item._id, index)}
         />}
       }>
     </FlatList>

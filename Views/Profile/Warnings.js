@@ -12,7 +12,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/ABS.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Airbag.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -23,7 +23,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/DPF.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Hehku.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -34,7 +34,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Luistonesto.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Lämmöt.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -45,7 +45,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Polttoaine.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/TPMS.png')}></Image>
             </View>
             <View style={styles.container2}>

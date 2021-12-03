@@ -1,32 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, FlatList, View, RefreshControl, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, FlatList, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Box from '@/components/Box';
 import Container from '@/components/Container';
 import axios from '@/services/axios';
-import Text from '@/components/Text';
-import CarInfo from '@/components/CarInfo';
-import Button from '@/components/Button';
-import Carousel from 'react-native-snap-carousel';
 
 const Feed = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [cars, setCars] = useState(null);
-  const [refreshing, setRefreshing] = useState(false)
-  const [isSwiperVisble, setIsSwiperVisible] = useState(false)
-  const [currentIndex, setCurrentIndex] = useState(false);
-
-  const handleOnChange = (index) => {
-      setCurrentIndex(index);
-  };
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    getCars()
-  },[])
+    const listener = navigation.addListener('focus', () => {
+      getCars()
+    })
+    
+    return listener;
+  },[navigation])
 
   const handleOnPress = (car_id) => {
-    setCurrentIndex(cars.map(c => c._id).indexOf(car_id))
-    setIsSwiperVisible(true)
+    navigation.navigate('OrderCar', { car_id: car_id })
   }
 
   const getCars = async () => {
@@ -48,21 +41,7 @@ const Feed = ({ navigation, route }) => {
     setRefreshing(false)
   }
 
-  const onSelectCar = (car_id) => {
-    navigation.navigate('OrderCar', { car_id })
-  }
-
-  const onClose = () => {
-    console.log('onClose')
-    setIsSwiperVisible(false)
-  }
-
-  useEffect(() => {
-    console.log(currentIndex)
-  },[currentIndex])
-
   return <Container>
-
     <FlatList
       refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}
       style={styles.container}
@@ -79,23 +58,6 @@ const Feed = ({ navigation, route }) => {
         />}
       }>
     </FlatList>
-
-    {isSwiperVisble &&
-      <TouchableOpacity touchSoundDisabled={true} activeOpacity={1} onPress={onClose} style={[{ position: 'absolute', backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 40 }, StyleSheet.absoluteFill ]}>
-        <Carousel
-          data={cars}
-          windowSize={3}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width / 1.2}
-          renderItem={({ item, index }) => {
-            return <CarInfo car={item} isCurrent={index === currentIndex} onPress={() => onSelectCar(item._id)} onClose={onClose} />
-          }}
-        />
-      </TouchableOpacity>
-    }
-
-    {isSwiperVisble && <Button style={{ width: Dimensions.get('window').width / 1.2, alignSelf: 'center', marginBottom: 20 }} onPress={() => navigation.navigate('OrderCar')}>Tilaa</Button>}
-  
   </Container>
 }
 

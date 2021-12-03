@@ -23,6 +23,14 @@ i18n
                         createOrder: 'Tilaa',
                         noOrder: 'Ei tilauksia',
                     },
+                    profile: {
+                        username: 'Profiili',
+                        currentOrder: 'Tilaus {{count}}',
+                        noOrder: 'Ei tilauksia',
+                    },
+                    orderCar: {
+                        price: 'Hinta: {{count}}€'
+                    },
                     washService: 'Pesupalvelu',
                     refuelService: 'Tankkauspalvelut',
                     roofrackService: 'Kattoteline',

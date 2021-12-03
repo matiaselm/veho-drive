@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, Image } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, ActivityIndicator, Image, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Container from '@/components/Container';
 import Divider from '@/components/Divider';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns'; 
 import { fi } from 'date-fns/locale'
+import Button from '@/components/Button';
 import Text from '@/components/Text';
+import axios from '@/services/axios';
+import { COLORS } from '@/styles/constants';
+
+import AppContext from '@/services/AppContext';
 
 const Order = ({ navigation, route }) => {
+    const { user } = useContext(AppContext);
     const [ car, setCar ] = useState(null)
     const [ order, setOrder ] = useState(null)
     const [ services, setServices ] = useState(null)
@@ -17,6 +23,7 @@ const Order = ({ navigation, route }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            console.log('focus')
             getOrder()
         })
         
@@ -25,17 +32,42 @@ const Order = ({ navigation, route }) => {
 
     const getOrder = async () => {
         try {
-            let res = await AsyncStorage.getItem('order')
-            res = JSON.parse(res)
-            if(res) {
-                setOrder(res)
-                setCar(res.car)
-                setServices(res.services)
+            const response = await axios.get(`users/${user._id}/currentorder`)
+            if(response.data) {
+                setOrder(response.data)
+                setCar(response.data.car)
+                setServices(response.data.services)
             } else {
                 setError(t('order.noOrder'))
             }
         } catch(e) {
-            console.error(e)
+            console.error('getOrder', e)
+        }
+    }
+
+    const endOrder = async () => {
+        try {
+            Alert.alert('Haluatko varmasti lopettaa tilauksen?', 'Auto tulee palauttaa 24 tunnin sisään tilauksen lopetuksesta', [
+                {
+                    text: 'Peruuta',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Lopeta',
+                    onPress: () => {
+                        axios.put(`orders/${order._id}`, { active: false, ends_at: new Date() }).then(res => {
+                            console.log(res.data)
+                            if(res.data){
+                                setOrder(res.data)
+                            }
+                        }).catch(e => {
+                            console.error('endOrder', e)
+                        })
+                    },
+                },
+            ])
+        } catch(e) {
+            console.error('endOrder', e)
         }
     }
 
@@ -57,6 +89,7 @@ const Order = ({ navigation, route }) => {
                 </View>
             </View>
             <Divider />
+            {order.active ? <Button style={{ margin: 10 }} color={COLORS.SECONDARY} onPress={endOrder}>Lopeta tilaus</Button> : <Text style={{ textAlign: 'center' }}>Tilaus on loppunut. Palauta auto 24 tunnin sisällä</Text>}
             {services != null && <View style={{ margin: 10 }}>
                 <Text title>Valitut lisäpalvelut</Text>
                 {Object.keys(services).map(key => {

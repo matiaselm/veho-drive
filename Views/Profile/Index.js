@@ -7,6 +7,7 @@ import Bonus from './Bonus';
 import Veho from './Veho';
 import OrderHistory from './OrderHistory';
 import UserSettings from './UserSettings';
+import Register from './Register';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default () => {
       <Stack.Screen name="Veho" component={Veho} options={options} />
       <Stack.Screen name="OrderHistory" component={OrderHistory} options={options} />
       <Stack.Screen name="UserSettings" component={UserSettings} options={options} />
+      <Stack.Screen name="Register" component={Register} options={options} />
     </Stack.Navigator>
   );
 };

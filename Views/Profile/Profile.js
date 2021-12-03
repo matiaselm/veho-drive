@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import ProfileImage from '@/components/ProfileImage';
 import Container from '@/components/Container';
+import AppContext from '@/services/AppContext';
+import axios from '@/services/axios';
+import { intervalToDuration } from 'date-fns';
 
 const Profile = ({ navigation, route }) => {
     const { t } = useTranslation();
+    const { user } = useContext(AppContext);
     const [car, setCar] = useState(null);
     const [order, setOrder] = useState(null);
-    const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -22,16 +25,28 @@ const Profile = ({ navigation, route }) => {
 
     const getOrder = async() => {
         try {
-            let res = await AsyncStorage.getItem('order')
-            res = JSON.parse(res)
-            if(res) {
-                setOrder(res)
-                setCar(res.car)
+            const response = await axios.get(`users/${user._id}/currentorder`);
+            if(response.data) {
+                console.log(response.data)
+                setOrder(response.data)
+                setCar(response.data.car)
+                setError(null)
             } else {
                 setError(t('order.noOrder'))
+                setOrder(null)
+                setCar(null)
             }
         } catch(e) {
             console.error(e)
+        }
+    }
+
+    const getDuration = (end) => {
+        const { months, days } = intervalToDuration({start: new Date(), end: new Date(end)})
+        if(months > 0) {
+            return `${months} Kuukautta ja ${days} päivää`
+        } else {
+            return `${days} päivää`
         }
     }
 
@@ -39,7 +54,7 @@ const Profile = ({ navigation, route }) => {
         <View style={styles.container3}>
             <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('UserSettings')}>
                 <ProfileImage image={ user?.image_url } />
-                <Text style={styles.text1}>Jarmo</Text>
+                <Text style={styles.text1}>{ user?.name ?? t('profile.username') }</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('Bonus')}>
                 <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/bonus_sininen.png')}></Image>
@@ -53,7 +68,7 @@ const Profile = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('CarStack', { screen: 'Order'})}>
                 { car && <Image style={styles.image} resizeMode='contain' source={{ uri: car.image_url }}></Image> }
-                <Text style={styles.text1}>{ error ?? 'Tilaus' }</Text>
+                { order ? <Text style={styles.text1}>{getDuration(order.ends_at)}</Text> : <Text style={styles.text1}>{t('profile.noOrder')}</Text> }
             </TouchableOpacity>
         </View>
         <View style={styles.container3}>

@@ -6,7 +6,7 @@ const instance = axios.create({
     timeout: 10000,
     headers: {
         'Authorization': 'Bearer ' + API_TOKEN,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
     }
 });
 

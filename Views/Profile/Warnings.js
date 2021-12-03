@@ -9,6 +9,9 @@ const Warnings = ({ navigation, route }) => {
 
     return <Container>
         <View style={styles.container3}>
+            <Text style={styles.text2}>Syttyikö auton mittaristoon jokin vikavalo? Paina syttyneen vikavalon kuvaa, niin saat apua ongelmaan. Voit myös aina olla suoraan yhteydessä Vehon palvelunumeroon.</Text>
+        </View>
+        <View style={styles.container3}>
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/ABS.png')}></Image>
             </View>
@@ -73,6 +76,12 @@ const styles = StyleSheet.create({
     text1: {
         color: '#000',
         fontSize: 26,
+    },
+    text2: {
+        color: '#000',
+        fontSize: 16,
+        padding: 14,
+        alignItems: 'center',
     },
 });
 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import ProfileImage from '@/components/ProfileImage';
 import Text from '@/components/Text';
 import Container from '@/components/Container';
 
@@ -38,6 +40,7 @@ const Bonus = ({ route, navigation }) => {
     });
 
     return <Container padding scroll>
+        <Text bold style={styles.text2}>Tervetuloa Bonusohjelman etusivulle. Löydät täältä tietoa eri tasoista ja niiden tuomista eduista.</Text>
         <View>
             <Text style={{ textAlign: 'center', fontSize: 18 }}>{guide.title}</Text>
             {guide.points.map((point, index) => <View key={index} style={{ flexDirection: 'row', justifyContent: 'flex-start', margin: 10 }}>
@@ -56,4 +59,13 @@ const Bonus = ({ route, navigation }) => {
     </Container>;
 }
 
-export default Bonus;
+const styles = StyleSheet.create({
+    text2: {
+        color: '#000',
+        fontSize: 18,
+        padding: 14,
+        textAlign: 'center',
+    },
+});
+
+export default Bonus

@@ -9,10 +9,13 @@ const Warnings = ({ navigation, route }) => {
 
     return <Container>
         <View style={styles.container3}>
+            <Text style={styles.text2}>Syttyikö auton mittaristoon jokin vikavalo? Paina syttyneen vikavalon kuvaa, niin saat apua ongelmaan. Voit myös aina olla suoraan yhteydessä Vehon palvelunumeroon.</Text>
+        </View>
+        <View style={styles.container3}>
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/ABS.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Airbag.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -23,7 +26,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/DPF.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Hehku.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -34,7 +37,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Luistonesto.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Lämmöt.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -45,7 +48,7 @@ const Warnings = ({ navigation, route }) => {
             <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Polttoaine.png')}></Image>
             </View>
-            <View style={styles.container2}>
+            <View style={[styles.container2, { borderRightWidth: 2, }]}>
                 <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/TPMS.png')}></Image>
             </View>
             <View style={styles.container2}>
@@ -73,6 +76,12 @@ const styles = StyleSheet.create({
     text1: {
         color: '#000',
         fontSize: 26,
+    },
+    text2: {
+        color: '#000',
+        fontSize: 16,
+        padding: 14,
+        alignItems: 'center',
     },
 });
 

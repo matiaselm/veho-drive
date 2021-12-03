@@ -4,7 +4,7 @@ import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { COLORS } from '@/styles/constants';
 import Text from './Text.js';
 
-const Button = ({ onPress, text, textColor, icon, iconColor, iconSize, color, style }) => {
+const Button = ({ onPress, text, textColor, icon, iconColor, iconSize, color, style, children }) => {
     const darken = (color, percent = -60) => {
         try {
             let R = parseInt(color.substring(1,3),16);
@@ -36,7 +36,7 @@ const Button = ({ onPress, text, textColor, icon, iconColor, iconSize, color, st
                 backgroundColor: pressed ? darken(color ?? COLORS.PRIMARY) : color ?? COLORS.PRIMARY
             },
             styles.orderButton, style]} onPress={onPress} activeOpacity={0.6}>
-        <Text style={[ styles.buttonText, { color: textColor ?? '#fff' }]}>{text}</Text>
+        <Text bold style={[ styles.buttonText, { color: textColor ?? '#fff' }]}>{children ?? text}</Text>
         { icon != null && <Icon name={icon} color={iconColor ?? '#fff'} size={iconSize ?? 30} style={{ marginLeft: 5 }}/> }
     </Pressable>
 }

@@ -1,60 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, Dimensions, } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ProfileImage from '@/components/ProfileImage';
 import Container from '@/components/Container';
 
+const sources = [
+    require('@/assets/lights/Airbag.png'),
+    require('@/assets/lights/Akku.png'),
+    require('@/assets/lights/Jarrut.png'),
+    require('@/assets/lights/Lämmöt.png'),
+    require('@/assets/lights/Öljy.png'),
+    require('@/assets/lights/Hehku.png'),
+    require('@/assets/lights/Luistonesto.png'),
+    require('@/assets/lights/Moottori.png'),
+    require('@/assets/lights/Polttoaine.png'),
+    require('@/assets/lights/TPMS.png'),
+    require('@/assets/lights/DPF.png'),
+    undefined
+]
+
 const Warnings = ({ navigation, route }) => {
     const { t } = useTranslation();
+
+    const [names, setNames] = useState();
 
     return <Container>
         <View style={styles.container3}>
             <Text style={styles.text2}>Syttyikö auton mittaristoon jokin vikavalo? Paina syttyneen vikavalon kuvaa, niin saat apua ongelmaan. Voit myös aina olla suoraan yhteydessä Vehon palvelunumeroon.</Text>
         </View>
-        <View style={styles.container3}>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/ABS.png')}></Image>
-            </View>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Airbag.png')}></Image>
-            </View>
-            <View style={styles.container2}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Akku.png')}></Image>
-            </View>
-        </View>
-        <View style={styles.container3}>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/DPF.png')}></Image>
-            </View>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Hehku.png')}></Image>
-            </View>
-            <View style={styles.container2}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Jarrut.png')}></Image>
-            </View>
-        </View>
-        <View style={styles.container3}>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Luistonesto.png')}></Image>
-            </View>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Lämmöt.png')}></Image>
-            </View>
-            <View style={styles.container2}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Moottori.png')}></Image>
-            </View>
-        </View>
-        <View style={styles.container3}>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Polttoaine.png')}></Image>
-            </View>
-            <View style={[styles.container2, { borderRightWidth: 2, }]}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/TPMS.png')}></Image>
-            </View>
-            <View style={styles.container2}>
-                <Image style={{ height: 105, width: 110, }} resizeMode='contain' source={require('@/assets/lights/Öljy.png')}></Image>
-            </View>
-        </View>
+        <FlatList
+            numColumns={3}
+            data={sources}
+            renderItem={({ item }) => <TouchableOpacity style={styles.container2}>
+                <Image style={styles.light} resizeMode='contain' source={item} />
+            </TouchableOpacity>}
+            keyExtractor={(item, index) => index}
+        />
     </Container>
 }
 
@@ -64,7 +45,6 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#fff',
         alignItems: 'center',
-        borderBottomWidth: 2,
     },
     container3: {
         flex: 1,
@@ -83,6 +63,7 @@ const styles = StyleSheet.create({
         padding: 14,
         alignItems: 'center',
     },
+    light: { height: 105, width: 110, }
 });
 
 export default Warnings

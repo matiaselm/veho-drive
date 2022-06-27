@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import ProfileImage from '@/components/ProfileImage';
 import Container from '@/components/Container';
@@ -9,11 +8,16 @@ import axios from '@/services/axios';
 import { intervalToDuration } from 'date-fns';
 
 const Profile = ({ navigation, route }) => {
-    const { t } = useTranslation();
-    const { user } = useContext(AppContext);
-    const [car, setCar] = useState(null);
+    const { t }             = useTranslation();
+    const { user }          = useContext(AppContext);
+    const [car, setCar]     = useState(null);
     const [order, setOrder] = useState(null);
     const [error, setError] = useState(null);
+
+    const [dimensions] = useState({
+        width:  Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+    });
 
     useEffect(() => {
         const unsubscibre = navigation.addListener('focus', () => {
@@ -51,62 +55,72 @@ const Profile = ({ navigation, route }) => {
     }
 
     return <Container>
-        <View style={styles.container3}>
-            <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('UserSettings')}>
+        <View style={styles.container}>
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('UserSettings')}>
                 <ProfileImage image={ user?.image_url } />
-                <Text style={styles.text1}>{ user?.name ?? t('profile.username') }</Text>
+                <Text style={styles.text}>{ user?.name ?? t('profile.username') }</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('Bonus')}>
-                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/bonus_sininen.png')}></Image>
-                <Text style={styles.text1}>Bonustaso</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.container3}>
-            <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('Veho')}>
-                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/veho_logo.png')}></Image>
-                <Text style={styles.text1}>Yhteystiedot</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('CarStack', { screen: 'Order'})}>
-                { car && <Image style={styles.image} resizeMode='contain' source={{ uri: car.image_url }}></Image> }
-                { order ? <Text style={styles.text1}>{getDuration(order.ends_at)}</Text> : <Text style={styles.text1}>{t('profile.noOrder')}</Text> }
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('Bonus')}>
+                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/bonus_sininen.png')} />
+                <Text style={styles.text}>Bonustaso</Text>
             </TouchableOpacity>
         </View>
-        <View style={styles.container3}>
-            <TouchableOpacity style={[styles.container2, { borderRightWidth: 2, }]} onPress={() => navigation.navigate('Warnings')}>
-                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/settings_sininen.png')}></Image>
-                <Text style={styles.text1}>Huolto</Text>
+        <View style={styles.container}>
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('Veho')}>
+                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/veho_logo.png')} />
+                <Text style={styles.text}>Yhteystiedot</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('OrderHistory')}>
-                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/membership_sininen.png')}></Image>
-                <Text style={[styles.text1, { fontSize: 17, }]}>Menneet tapahtumat</Text>
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('CarStack', { screen: 'Order'})}>
+                { car && <Image style={styles.carImage} resizeMode='contain' source={{ uri: car.image_url }} /> }
+                { order ? <Text style={styles.text}>{getDuration(order.ends_at)}</Text> : <Text style={styles.text}>{t('profile.noOrder')}</Text> }
+            </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('Warnings')}>
+                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/settings_sininen.png')} />
+                <Text style={styles.text}>Huolto</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} style={[styles.containerItem]} onPress={() => navigation.navigate('OrderHistory')}>
+                <Image style={styles.image} resizeMode='contain' source={require('@/assets/icons/membership_sininen.png')} />
+                <Text style={[styles.text, { fontSize: 17, }]}>Menneet tapahtumat</Text>
             </TouchableOpacity>
         </View>
     </Container>
 }
 
 const styles = StyleSheet.create({
-    container2: {
-        flex: 1,
-        padding: 15,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        borderBottomWidth: 2,
-        flexDirection: 'column',
-    },
-    container3: {
+    container: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        backgroundColor: '#fff',
     },
-    text1: {
+    containerItem: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        margin: 10,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        elevation: 5,
+    },
+    text: {
+        position: 'absolute',
+        bottom: 0,
         color: '#000',
         fontSize: 26,
+        alignSelf: 'center',
     },
     image: {
         flex: 1,
-        width: '100%',
+        width: '70%',
+        margin: 20,
+    },
+    carImage: {
+        flex: 1,
+        width: '90%',
+        borderRadius: 10,
     }
 });
 

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, Dimensions, } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import ProfileImage from '@/components/ProfileImage';
+import React from 'react';
+import { Text, Image, StyleSheet, TouchableOpacity, FlatList, } from 'react-native';
 import Container from '@/components/Container';
 
 const sources = [
@@ -20,18 +18,14 @@ const sources = [
 ]
 
 const Warnings = ({ navigation, route }) => {
-    const { t } = useTranslation();
-
-    const [names, setNames] = useState();
-
     return <Container>
-        <View style={styles.container3}>
-            <Text style={styles.text2}>Syttyikö auton mittaristoon jokin vikavalo? Paina syttyneen vikavalon kuvaa, niin saat apua ongelmaan. Voit myös aina olla suoraan yhteydessä Vehon palvelunumeroon.</Text>
-        </View>
         <FlatList
+            ListHeaderComponent={() => <Text style={styles.text2}>
+                Syttyikö auton mittaristoon jokin vikavalo? Paina syttyneen vikavalon kuvaa, niin saat apua ongelmaan. Voit myös aina olla suoraan yhteydessä Vehon palvelunumeroon.
+            </Text>}
             numColumns={3}
             data={sources}
-            renderItem={({ item }) => <TouchableOpacity style={styles.container2}>
+            renderItem={({ item }) => <TouchableOpacity style={styles.container2} activeOpacity={0.7}>
                 <Image style={styles.light} resizeMode='contain' source={item} />
             </TouchableOpacity>}
             keyExtractor={(item, index) => index}
@@ -43,8 +37,12 @@ const styles = StyleSheet.create({
     container2: {
         flex: 1,
         padding: 15,
-        backgroundColor: '#fff',
         alignItems: 'center',
+        backgroundColor: '#fff',
+        margin: 10,
+        elevation: 5,
+        borderRadius: 10,
+        padding: 10
     },
     container3: {
         flex: 1,
@@ -63,7 +61,10 @@ const styles = StyleSheet.create({
         padding: 14,
         alignItems: 'center',
     },
-    light: { height: 105, width: 110, }
+    light: {
+        height: 90,
+        width: 90,
+    }
 });
 
 export default Warnings
